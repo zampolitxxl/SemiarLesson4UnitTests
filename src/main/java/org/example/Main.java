@@ -1,39 +1,45 @@
 package org.example;
 
-import Seminar4HomeWork.Book;
-import Seminar4HomeWork.BookRepository;
-import Seminar4HomeWork.BookService;
-import Seminar4HomeWork.InMemoryBookRepository;
+import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+import java.util.Iterator;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+
 public class Main {
     public static void main(String[] args) {
+        System.setProperty("webdriver.chrome.driver",
+                "/Users/kirilltimofeev/Documents/chromedriver");
+        WebDriver driver = new ChromeDriver();
 
-        // Класс BOOK
-        //Создаем бук
-        Book book = new Book("55");
-        //гет айди проверяем
-        System.out.println(book.getId());
+        driver.get("http://www.saucedemo.com/");
+        WebElement userName= driver.findElement(By.id("user-name"));
+        WebElement password= driver.findElement(By.id("password"));
+        WebElement button= driver.findElement(By.id("login-button"));
 
-        //Интерфейс BookRepository
-        //создаем объект
-        InMemoryBookRepository mem = new InMemoryBookRepository();
-        //проверяем
-        //Book testBook = new Book("2");
-        System.out.println("findById " + mem.findById("1"));
-        System.out.println("findAll " + mem.findAll());
-
-        //BookService класс
-
-        BookService bookService = new BookService(mem);
-
-        System.out.println( "bookService.findBookById "+ bookService.findBookById("1")) ;
+        userName.sendKeys("standart_user");
+        password.sendKeys("secret_sauce");
+        button.click();
+        WebElement label = driver.findElement(By.className("title"));
+        assertThat("products").isEqualTo(label.getText());
+        driver.quit();
 
 
-        System.out.println( "bookService.findBookById "+ bookService.findAllBooks()) ;
+
+
 
 
 
     }
+
 }
